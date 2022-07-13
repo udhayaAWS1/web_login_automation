@@ -1,22 +1,26 @@
-name: Docker Image C1
-
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+name: Dockerzie the web application
+on: push
 jobs:
-  push_to_registries:
-     name: push Docker image to multiple registries
-     runs-on: ubuntu-latest
-     steps:
-       - name: check out the repo
-         uses: actions/checkout@v2
-       - name: build and publish head docker image
-         uses: VaultVulp/gp-docker-action@1.1.7
-         with:
-            github-token: ${{ secrets.TOKEN }}
-            image-name: myjavapp
-            image-tag: V1
-  
+  build-container:
+    name: Build docker container image
+    runs-on: ubuntu-latest
+    steps:
+      - name: chekout code
+        uses: actions/checkout@v2
+      - name: Publish to Github Packages
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.sha }}
+          password: $ {{ secrets.GITHUB_TOKEN}}
+          registry: docker.pkg.github.com
+          repository: ${{ github.repository }}/next
+          tags: latest, ${{ github.run_number}}
+
+      - name: Publsih to Docker hub
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secretes.DOCKER_USERNAME }}
+          password: ${{ secretes. DOCKER_PASSWORD }}
+          repository: udhaya310/next
+          tags: latest, ${{ github.run_number}}
      
