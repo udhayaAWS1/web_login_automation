@@ -10,7 +10,7 @@ jobs:
    runs-on: ubuntu-latest
    steps:
      - name: check the repo
-       uses: actions/cgeckout@v2
+       uses: actions/checkout@v2
      - name: Build and publish head Docker image
        uses: VaultVulp/gp-docker-action@1.1.7
        with:
