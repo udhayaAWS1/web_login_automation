@@ -1,18 +1,20 @@
-name: Docker Image CI
+name: Python application
 
 on:
   push:
-    branches: [ "master" ]
+   branches: [ master ]
   pull_request:
-    branches: [ "master" ]
-
+    branches: [ master ]
+      
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - uses: actions/checkout@v1
+    - name: Build & Push Image
+      run: |
+        echo "${{ secrets.TOKEN }}" | docker login -u "dab8106" --password-stdin
+        docker image build -t dab8106/gitaction:v1 .
+        docker push dab8106/gitaction:v1
