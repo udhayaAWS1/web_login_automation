@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - 'mater'
+      - 'master'
 
 jobs:
   docker:
